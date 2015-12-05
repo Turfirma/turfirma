@@ -3,7 +3,9 @@ package main.model.dao;
 import main.model.domain.OpenedVisas;
 import main.model.resources.JDBCConnection;
 
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +51,25 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
 
     @Override
     public List<OpenedVisas> getAll() {
+        try {
+            List<OpenedVisas> list = new ArrayList<>();
+            JDBCConnection connection = new JDBCConnection();
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM turfirma.opened_visas");
+            while (result.next()) {
+                OpenedVisas openedVisas = new OpenedVisas();
+                openedVisas.setId_opened_visas(result.getInt(1));
+                openedVisas.setId_country(result.getInt(2));
+                openedVisas.setStart_date(result.getDate(3));
+                openedVisas.setEnd_date(result.getDate(4));
+                openedVisas.setId_client(result.getInt(5));
+                list.add(openedVisas);
+            }
+            connection.getConnection().close();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

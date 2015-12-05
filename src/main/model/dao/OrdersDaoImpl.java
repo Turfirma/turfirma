@@ -42,8 +42,8 @@ public class OrdersDaoImpl implements OrdersDao {
             int result = statement.executeUpdate("delete from turfirma.orders where " +
                     "id_hotel = " + order.getId_hotel() +
                     " and id_room = " + order.getId_room() +
-                    " and check_in = " + order.getCheck_in() +
-                    " and check_out = " + order.getCheck_out() +
+                    " and check_in = ' " + order.getCheck_in() + " ' " +
+                    " and check_out = ' " + order.getCheck_out() + " ' " +
                     " and id_client = " + order.getId_client() +" ;");
             return result;
         } catch (Exception e) {
