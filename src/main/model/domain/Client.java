@@ -10,6 +10,16 @@ public class Client {
     private String email;
     private int id_country;
 
+    public Client(String first_name, String last_name, String email, int id_country) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.id_country = id_country;
+    }
+
+    public Client() {
+    }
+
     public void setId_client(int id_client) {
         this.id_client = id_client;
     }
@@ -59,15 +69,5 @@ public class Client {
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    public Client(String first_name, String last_name, String email, int id_country) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.id_country = id_country;
-    }
-
-    public Client() {
     }
 }

@@ -36,9 +36,9 @@ public class HotelDaoImpl implements HotelDao {
         try {
             JDBCConnection connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            int result = statement.executeUpdate("DELETE FROM turfirma.hotels WHERE hotel_name LIKE "
+            int result = statement.executeUpdate("DELETE FROM turfirma.hotels WHERE hotel_name LIKE '"
                     + hotel.getHotel_name()
-                    + " AND id_country = "
+                    + "' AND id_country = "
                     + hotel.getId_country()
                     + " AND id_city = "
                     + hotel.getId_city()

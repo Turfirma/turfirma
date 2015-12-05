@@ -37,13 +37,13 @@ public class ClientDaoImpl implements ClientDao {
         try {
             JDBCConnection connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            int result = statement.executeUpdate("DELETE FROM turfirma.client WHERE first_name LIKE "
+            int result = statement.executeUpdate("DELETE FROM turfirma.client WHERE first_name LIKE '"
                     + client.getFirst_name()
-                    + " AND last_name LIKE "
+                    + "' AND last_name LIKE '"
                     + client.getLast_name()
-                    + " AND email LIKE "
+                    + "' AND email LIKE '"
                     + client.getEmail()
-                    + ";");
+                    + "';");
             connection.getConnection().close();
             return result;
         } catch (Exception e) {
