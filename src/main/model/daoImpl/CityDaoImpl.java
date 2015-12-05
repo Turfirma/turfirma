@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.CityDao;
 import main.model.domain.City;
 import main.model.domain.Country;
 import main.model.resources.JDBCConnection;

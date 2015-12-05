@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.ClientDao;
 import main.model.domain.City;
 import main.model.domain.Client;
 import main.model.resources.JDBCConnection;

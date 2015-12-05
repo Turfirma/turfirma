@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.RoomDao;
 import main.model.domain.Room;
 import main.model.resources.JDBCConnection;
 

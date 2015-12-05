@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.HotelDao;
 import main.model.domain.Client;
 import main.model.domain.Hotel;
 import main.model.resources.JDBCConnection;

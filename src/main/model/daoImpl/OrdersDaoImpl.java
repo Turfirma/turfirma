@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.OrdersDao;
 import main.model.domain.Order;
 import main.model.resources.JDBCConnection;
 

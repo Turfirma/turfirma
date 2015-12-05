@@ -1,5 +1,6 @@
-package main.model.dao;
+package main.model.daoImpl;
 
+import main.model.dao.OpenedVisasDao;
 import main.model.domain.OpenedVisas;
 import main.model.resources.JDBCConnection;
 
