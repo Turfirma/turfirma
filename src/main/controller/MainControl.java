@@ -14,14 +14,18 @@ import java.util.List;
  * Created by bo4ek on 05.12.2015.
  */
 public class MainControl {
+
+    //1.1
     public List<Country> getAllCountries() {
         return new CountryDaoImpl().getAll();
     }
 
+    //1.2
     public List<City> getAllCities() {
         return new CityDaoImpl().getAll();
     }
 
+    //2
     public List<Hotel> checkForHotelInCity(String cityName) {
         List<City> listAllCities = getAllCities();
         int id_city = 0;
@@ -38,5 +42,10 @@ public class MainControl {
             }
         }
         return listInCity;
+    }
+
+    //6
+    public int howManyVisas() {
+        return 0;
     }
 }

@@ -1,6 +1,7 @@
 package main.model.daoImpl;
 
 import main.model.dao.OpenedVisasDao;
+import main.model.domain.Country;
 import main.model.domain.OpenedVisas;
 import main.model.resources.JDBCConnection;
 
@@ -77,5 +78,25 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
     @Override
     public OpenedVisas findRoom() {
         return null;
+    }
+
+
+    public int howManyVisas(Country country) {
+        try {
+            JDBCConnection connection = new JDBCConnection();
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet set = statement.executeQuery("SELECT COUNT(id_country) FROM turfirma.opened_visas " +
+                    "WHERE id_country=(SELECT id_country FROM turfirma.country WHERE country_name " +
+                    "LIKE '" + country.getCountry_name() + "');");
+            set.next();
+
+
+
+
+            return set.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
