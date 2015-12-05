@@ -17,6 +17,13 @@ public class OpenedVisas {
     public OpenedVisas() {
     }
 
+    public OpenedVisas(int id_country, int id_client, Date start_date, Date end_date) {
+        this.id_country = id_country;
+        this.id_client = id_client;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
     public OpenedVisas(int id_opened_visas, Date end_date, Date start_date, int id_client, int id_country) {
         this.id_opened_visas = id_opened_visas;
         this.end_date = end_date;

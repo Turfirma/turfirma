@@ -2,7 +2,10 @@ package main;
 
 import main.model.dao.CountryDao;
 import main.model.dao.CountryDaoImpl;
+import main.model.dao.RoomDao;
+import main.model.dao.RoomDaoImpl;
 import main.model.domain.Country;
+import main.model.domain.Room;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,8 +17,11 @@ import java.util.List;
 public class Test {
 
     public static void main(String[]args) {
-        Country country = new Country("Georgia");
-        CountryDao countryDao = new CountryDaoImpl();
-        List<Country> list = countryDao.getAll();
+        Room room = new Room();
+        room.setId_hotel(4);
+        room.setCapacity(4);
+        room.setRoom_number(4);
+        RoomDao roomDao = new RoomDaoImpl();
+        roomDao.createRoom(room);
     }
 }

@@ -13,6 +13,12 @@ public class Room {
     public Room() {
     }
 
+    public Room(int id_hotel, int room_number, int capacity) {
+        this.id_hotel = id_hotel;
+        this.room_number = room_number;
+        this.capacity = capacity;
+    }
+
     public Room(int room_number, int id_room, int id_hotel, int capacity) {
         this.room_number = room_number;
         this.id_room = id_room;

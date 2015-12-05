@@ -18,6 +18,14 @@ public class Orders {
     public Orders() {
     }
 
+    public Orders(int id_hotel, int id_room, int id_client, Date check_in, Date check_out) {
+        this.id_hotel = id_hotel;
+        this.id_room = id_room;
+        this.id_client = id_client;
+        this.check_in = check_in;
+        this.check_out = check_out;
+    }
+
     public Orders(int id_orders, Date check_out, int id_client, int id_hotel, int id_room, Date check_in) {
         this.id_orders = id_orders;
         this.check_out = check_out;
