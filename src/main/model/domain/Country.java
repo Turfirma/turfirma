@@ -4,6 +4,7 @@ package main.model.domain;
  * Created by Максим on 04.12.2015.
  */
 public class Country {
+
     private int id_country;
     private String country_name;
 
