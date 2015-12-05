@@ -14,12 +14,13 @@ public class JDBCConnection {
 
     public JDBCConnection() {
         try {
-            connection = DriverManager.getConnection(URL,USERNAME,PASS);
+            connection = DriverManager.getConnection(URL, USERNAME, PASS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public Connection getConnection(){
+
+    public Connection getConnection() {
         return connection;
     }
 }

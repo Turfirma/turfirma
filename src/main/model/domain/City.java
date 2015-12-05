@@ -8,6 +8,9 @@ public class City {
     private int id_country;
     private String city_name;
 
+    public City() {
+    }
+
     public City(String city_name) {
         this.city_name = city_name;
     }

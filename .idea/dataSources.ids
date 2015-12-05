@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - turfirma@localhost" uuid="6c70a7f9-acc6-4b20-86a4-2fda6c814453">
-    <database-info product="MySQL" version="5.6.27-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+  <data-source name="MySQL - turfirma@localhost" uuid="d5a76e1d-be4e-4950-839c-0c1f881a177b">
+    <database-info product="MySQL" version="5.7.9-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
@@ -13,17 +13,16 @@
       <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id_city"/>
       <index name="city_name_UNIQUE" unique="true" columns="city_name"/>
-      <index name="idcity_UNIQUE" unique="true" columns="id_city"/>
+      <index name="id_city_UNIQUE" unique="true" columns="id_city"/>
     </table>
     <table name="client" schema="" catalog="turfirma" type="TABLE">
       <column name="id_client" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="first_name" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <column name="last_name" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <column name="email" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
-      <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="T3JpZ2luIGNvdW50cnkgb2Ygb3VyIGNsaWVudHMu"/>
+      <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="T3JpZ2luIGNvdW50cnkgb2YgdGhlIGNsaWVudA=="/>
       <primary-key name="PRIMARY" columns="id_client"/>
       <index name="email_UNIQUE" unique="true" columns="email"/>
-      <index name="idclient_UNIQUE" unique="true" columns="id_client"/>
     </table>
     <table name="country" schema="" catalog="turfirma" type="TABLE">
       <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -33,19 +32,20 @@
       <index name="id_country_UNIQUE" unique="true" columns="id_country"/>
     </table>
     <table name="hotels" schema="" catalog="turfirma" type="TABLE">
-      <column name="id_hotel" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="id_hotel" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="hotel_name" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="id_city" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id_hotel"/>
+      <index name="id_hotel_UNIQUE" unique="true" columns="id_hotel"/>
     </table>
     <table name="opened_visas" schema="" catalog="turfirma" type="TABLE">
-      <column name="id_opened_visas" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="id_opened_visa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="id_country" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="start_date" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="end_date" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="id_client" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id_opened_visas"/>
+      <primary-key name="PRIMARY" columns="id_opened_visa"/>
     </table>
     <table name="orders" schema="" catalog="turfirma" type="TABLE">
       <column name="id_orders" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -55,7 +55,7 @@
       <column name="check_out" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="id_client" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id_orders"/>
-      <index name="idorders_UNIQUE" unique="true" columns="id_orders"/>
+      <index name="id_orders_UNIQUE" unique="true" columns="id_orders"/>
     </table>
     <table name="room" schema="" catalog="turfirma" type="TABLE">
       <column name="id_room" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
