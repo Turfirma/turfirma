@@ -31,7 +31,19 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
     }
 
     @Override
-    public int deleteOrder(OpenedVisas visas) {
+    public int deleteVisa(OpenedVisas visas) {
+        try{
+            JDBCConnection jdbcConnection = new JDBCConnection();
+            Statement statement = jdbcConnection.getConnection().createStatement();
+            int result = statement.executeUpdate("delete from turfirma.opened_visas where " +
+                    "id_country = " + visas.getId_country() +
+                    " and start_date = " + visas.getStart_date() +
+                    " and end_date = " + visas.getEnd_date() +
+                    " and id_client = " + visas.getId_client() +" ;");
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 

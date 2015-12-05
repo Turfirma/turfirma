@@ -11,7 +11,7 @@ public interface OpenedVisasDao {
 
     int createVisas(OpenedVisas visas);
 
-    int deleteOrder(OpenedVisas visas);
+    int deleteVisa(OpenedVisas visas);
 
     List<OpenedVisas> getAll();
 

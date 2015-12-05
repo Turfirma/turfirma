@@ -1,12 +1,14 @@
 package main;
 
-import main.model.dao.*;
-import main.model.domain.City;
-import main.model.domain.Client;
-import main.model.domain.Country;
 
-import javax.xml.ws.Holder;
-import java.sql.SQLException;
+import main.model.dao.OpenedVisasDao;
+import main.model.dao.OpenedVisasDaoImpl;
+import main.model.domain.OpenedVisas;
+import main.model.domain.Order;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -15,25 +17,24 @@ import java.util.List;
 
 public class Test {
 
-    public static void main(String[] args) {
-      /*Country country = new Country("Georgia");
-        CountryDao countryDao = new CountryDaoImpl();
+    public static void main(String[]args) throws ParseException {
 
-        City city1 = new City("Los-Angeles",3);
-        new CityDaoImpl().createCity(city1);
+        OpenedVisasDao openedVisasDao = new OpenedVisasDaoImpl();
+        OpenedVisas openedVisas = new OpenedVisas();
+        String startDate = "2018-07-28";
+        String endDate = "2018-08-28";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        openedVisas.setId_client(8);
+        openedVisas.setId_country(8);
+        openedVisas.setStart_date(new Date(simpleDateFormat.parse(startDate).getTime()));
+        openedVisas.setEnd_date(new Date(simpleDateFormat.parse(endDate).getTime()));
+        System.out.println(openedVisas);
+        System.out.println(openedVisasDao.deleteVisa(openedVisas));
+        /*ordersDao.deleteOrder(order);
+        List<Order> orders = ordersDao.getAll();
+        for (Order order:orders){
+            System.out.println(order);
+        }*/
 
-        Client client = new Client("a","b","da",1);
-        new ClientDaoImpl().createClient(client);
-        new ClientDaoImpl().deleteClient(client);
-
-        Hotel hotel = new Hotel("Doom",2,1);
-        new HotelDaoImpl().createHotel(hotel);
-        new HotelDaoImpl().deleteHotel(hotel);
-        */
-        List<City> cities = new CityDaoImpl().getAll();
-
-        for (City city : cities) {
-            System.out.println(city);
-        }
     }
 }
