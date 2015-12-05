@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface OrdersDao {
 
-
     int createOrder(Order order);
 
     int deleteOrder(Order order);

@@ -10,6 +10,9 @@ public class Client {
     private String last_name;
     private String email;
 
+    public Client() {
+    }
+
     public void setId_client(int id_client) {
         this.id_client = id_client;
     }
