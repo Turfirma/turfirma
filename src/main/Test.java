@@ -4,7 +4,6 @@ import main.model.dao.*;
 import main.model.domain.City;
 import main.model.domain.Client;
 import main.model.domain.Country;
-import main.model.domain.Hotel;
 
 import javax.xml.ws.Holder;
 import java.sql.SQLException;
@@ -36,6 +35,5 @@ public class Test {
         for (City city : cities) {
             System.out.println(city);
         }
-
     }
 }
