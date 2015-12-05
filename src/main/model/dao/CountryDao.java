@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface CountryDao {
 
-    int createCountry(Country country) throws SQLException;
+    int createCountry(Country country);
 
-    int deleteCountry(Country country) throws SQLException;
+    int deleteCountry(Country country);
 
-    List<Country> getAll() throws SQLException;
+    List<Country> getAll();
 
     Country findCountry();
 }

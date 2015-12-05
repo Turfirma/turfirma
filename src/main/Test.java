@@ -5,6 +5,7 @@ import main.model.dao.CountryDaoImpl;
 import main.model.domain.Country;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Максим on 04.12.2015.
@@ -12,14 +13,9 @@ import java.sql.SQLException;
 
 public class Test {
 
-    public static void main(String[]args) throws SQLException {
+    public static void main(String[]args) {
         Country country = new Country("Georgia");
         CountryDao countryDao = new CountryDaoImpl();
-        int check = countryDao.createCountry(country);
-        if (check == 1) System.out.printf("Good");
-        else System.out.printf("Bad");
-        int check2 = countryDao.deleteCountry(country);
-        if (check2 == 1) System.out.printf("Good2");
-        else System.out.printf("Bad2");
+        List<Country> list = countryDao.getAll();
     }
 }
