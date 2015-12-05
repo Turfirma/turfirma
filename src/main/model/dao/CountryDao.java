@@ -2,8 +2,6 @@ package main.model.dao;
 
 import main.model.domain.Country;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**

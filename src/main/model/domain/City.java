@@ -8,8 +8,12 @@ public class City {
     private int id_country;
     private String city_name;
 
-    public City(String city_name) {
+    public City() {
+    }
+
+    public City(String city_name, int id_country) {
         this.city_name = city_name;
+        this.id_country = id_country;
     }
 
     public void setId_city(int id_city) {
@@ -34,5 +38,14 @@ public class City {
 
     public String getCity_name() {
         return city_name;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id_city=" + id_city +
+                ", id_country=" + id_country +
+                ", city_name='" + city_name + '\'' +
+                '}';
     }
 }
