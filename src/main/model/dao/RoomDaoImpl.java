@@ -3,8 +3,9 @@ package main.model.dao;
 import main.model.domain.Room;
 import main.model.resources.JDBCConnection;
 
-import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,24 @@ public class RoomDaoImpl implements RoomDao {
 
     @Override
     public List<Room> getAll() {
+        try {
+            List<Room> list = new ArrayList<>();
+            JDBCConnection connection = new JDBCConnection();
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM turfirma.room");
+            while (result.next()) {
+                Room room = new Room();
+                room.setId_room(result.getInt(1));
+                room.setRoom_number(result.getInt(2));
+                room.setCapacity(result.getInt(3));
+                room.setId_hotel(result.getInt(4));
+                list.add(room);
+            }
+            connection.getConnection().close();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
