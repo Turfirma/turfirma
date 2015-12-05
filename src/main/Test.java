@@ -18,10 +18,10 @@ public class Test {
 
     public static void main(String[]args) {
         Room room = new Room();
-        room.setId_hotel(4);
-        room.setCapacity(4);
-        room.setRoom_number(4);
+        room.setId_hotel(1);
+        room.setCapacity(1);
+        room.setRoom_number(7);
         RoomDao roomDao = new RoomDaoImpl();
-        roomDao.createRoom(room);
+        roomDao.deleteRoom(room);
     }
 }

@@ -29,6 +29,16 @@ public class RoomDaoImpl implements RoomDao {
 
     @Override
     public int deleteRoom(Room room) {
+        try{
+            JDBCConnection jdbcConnection = new JDBCConnection();
+            Statement statement = jdbcConnection.getConnection().createStatement();
+            int result = statement.executeUpdate("DELETE FROM turfirma.room " +
+                    "WHERE room_number = " + room.getRoom_number() +
+                    " and capacity = " + room.getCapacity() +
+                    " and id_hotel = " + room.getId_hotel() + " ;");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
