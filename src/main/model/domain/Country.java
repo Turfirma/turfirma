@@ -7,6 +7,9 @@ public class Country {
     private int id_country;
     private String country_name;
 
+    public Country() {
+    }
+
     public Country(String country_name) {
         this.country_name = country_name;
     }
@@ -21,6 +24,10 @@ public class Country {
 
     public void setCountry_name(String country_name) {
         this.country_name = country_name;
+    }
+
+    public void setId_country(int id_country) {
+        this.id_country = id_country;
     }
 
     @Override

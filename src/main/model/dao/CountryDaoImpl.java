@@ -4,6 +4,8 @@ import main.model.domain.Country;
 import main.model.resources.JDBCConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CountryDaoImpl implements CountryDao {
 
@@ -12,7 +14,7 @@ public class CountryDaoImpl implements CountryDao {
         JDBCConnection connection = new JDBCConnection();
         Statement statement = connection.getConnection().createStatement();
         int result = statement.executeUpdate("INSERT INTO turfirma.country (country_name) VALUE ('" + country.getCountry_name() + "');");
-        //JDBCConnection.getInstance().close();
+        connection.getConnection().close();
         return result;
     }
 
@@ -20,15 +22,25 @@ public class CountryDaoImpl implements CountryDao {
     public int deleteCountry(Country country) throws SQLException {
         JDBCConnection connection = new JDBCConnection();
         Statement statement = connection.getConnection().createStatement();
-        if (statement==null) System.out.println("null");
         int result = statement.executeUpdate("DELETE FROM turfirma.country WHERE country_name = '" + country.getCountry_name() + "';");
-        //JDBCConnection.getInstance().close();
+        connection.getConnection().close();
         return result;
     }
 
     @Override
-    public void viewAll() {
-
+    public List<Country> getAll() throws SQLException {
+        List<Country> list = new ArrayList<>();
+        JDBCConnection connection = new JDBCConnection();
+        Statement statement = connection.getConnection().createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM turfirma.country");
+        while (result.next()) {
+            Country country = new Country();
+            country.setId_country(result.getInt(1));
+            country.setCountry_name(result.getString(2));
+            list.add(country);
+        }
+        connection.getConnection().close();
+        return list;
     }
 
     @Override

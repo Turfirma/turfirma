@@ -18,7 +18,8 @@ public class Test {
         int check = countryDao.createCountry(country);
         if (check == 1) System.out.printf("Good");
         else System.out.printf("Bad");
+        int check2 = countryDao.deleteCountry(country);
+        if (check2 == 1) System.out.printf("Good2");
+        else System.out.printf("Bad2");
     }
-
-
 }
