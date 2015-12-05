@@ -3,16 +3,19 @@ package main.model.domain;
 /**
  * Created by bo4ek on 05.12.2015.
  */
-public class Hotels {
+public class Hotel {
     private int id_hotel;
     private int id_city;
     private int id_country;
     private String hotel_name;
 
-    public Hotels(int id_city, int id_country, String hotel_name) {
+    public Hotel(int id_city, int id_country, String hotel_name) {
         this.id_city = id_city;
         this.id_country = id_country;
         this.hotel_name = hotel_name;
+    }
+
+    public Hotel() {
     }
 
     public void setId_hotel(int id_hotel) {
@@ -32,7 +35,6 @@ public class Hotels {
     }
 
     public int getId_hotel() {
-
         return id_hotel;
     }
 
@@ -46,5 +48,15 @@ public class Hotels {
 
     public String getHotel_name() {
         return hotel_name;
+    }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id_hotel=" + id_hotel +
+                ", id_city=" + id_city +
+                ", id_country=" + id_country +
+                ", hotel_name='" + hotel_name + '\'' +
+                '}';
     }
 }

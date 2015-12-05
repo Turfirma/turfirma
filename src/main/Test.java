@@ -1,11 +1,12 @@
 package main;
 
+import main.model.dao.CityDaoImpl;
+import main.model.dao.ClientDaoImpl;
 import main.model.dao.CountryDao;
 import main.model.dao.CountryDaoImpl;
-import main.model.dao.RoomDao;
-import main.model.dao.RoomDaoImpl;
+import main.model.domain.City;
+import main.model.domain.Client;
 import main.model.domain.Country;
-import main.model.domain.Room;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,11 +18,20 @@ import java.util.List;
 public class Test {
 
     public static void main(String[]args) {
-        Room room = new Room();
-        room.setId_hotel(1);
-        room.setCapacity(1);
-        room.setRoom_number(7);
-        RoomDao roomDao = new RoomDaoImpl();
-        roomDao.deleteRoom(room);
+      /*  Country country = new Country("Georgia");
+        CountryDao countryDao = new CountryDaoImpl();
+
+        City city1 = new City("Los-Angeles",3);
+        new CityDaoImpl().createCity(city1);*/
+
+        /*Client client = new Client("a","b","da",1);
+        new ClientDaoImpl().createClient(client);*/
+
+        List<City> cities = new CityDaoImpl().getAll();
+
+        for(City city: cities) {
+            System.out.println(city);
+        }
+
     }
 }
