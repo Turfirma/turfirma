@@ -16,7 +16,7 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
         try {
             JDBCConnection jdbcConnection = new JDBCConnection();
             Statement statement = jdbcConnection.getConnection().createStatement();
-            int result = statement.executeUpdate("insert into turfirma.opened_visas (id_country,start_date,end_date,id_client) " +
+            int result = statement.executeUpdate("insert into turfirma.opened_visa (id_country,start_date,end_date,id_client) " +
                     "values (" +
                     visas.getId_country() + " ,'" +
                     visas.getStart_date() + " ',' " +
@@ -35,7 +35,7 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
         try{
             JDBCConnection jdbcConnection = new JDBCConnection();
             Statement statement = jdbcConnection.getConnection().createStatement();
-            int result = statement.executeUpdate("delete from turfirma.opened_visas where " +
+            int result = statement.executeUpdate("delete from turfirma.opened_visa where " +
                     "id_country = " + visas.getId_country() +
                     " and start_date = " + visas.getStart_date() +
                     " and end_date = " + visas.getEnd_date() +
