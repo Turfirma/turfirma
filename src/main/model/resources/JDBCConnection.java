@@ -4,32 +4,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-/**
- * Created by Максим on 04.12.2015.
- */
 public class JDBCConnection {
 
-    private static Connection connection;
+    private Connection connection;
 
     private static final String URL = "jdbc:mysql://localhost:3306/turfirma";
     private static final String USERNAME = "root";
     private static final String PASS = "root";
 
-    public static Connection getInstance() {
-        if (connection == null){
-            try {
-                System.out.println("Get Connection");
-                connection = DriverManager.getConnection(URL,USERNAME,PASS);
-                System.out.printf("Connection start");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                System.out.println("Connection failed");
-            }
+    public JDBCConnection() {
+        try {
+            connection = DriverManager.getConnection(URL,USERNAME,PASS);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return connection;
     }
-
-    private JDBCConnection() {
+    public Connection getConnection(){
+        return connection;
     }
 }

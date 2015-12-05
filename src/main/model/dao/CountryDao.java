@@ -9,8 +9,11 @@ import java.sql.SQLException;
  */
 public interface CountryDao {
 
-    public int createCountry(Country country) throws SQLException;
-    public void deleteCountry(Country country);
-    public void viewAll();
-    public Country findCountry();
+    int createCountry(Country country) throws SQLException;
+
+    int deleteCountry(Country country) throws SQLException;
+
+    void viewAll();
+
+    Country findCountry();
 }
