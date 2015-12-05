@@ -1,7 +1,6 @@
 package main.model.dao;
 
 import main.model.domain.Room;
-
 import java.util.List;
 
 /**

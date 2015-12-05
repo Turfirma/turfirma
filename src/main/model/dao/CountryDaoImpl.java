@@ -28,7 +28,7 @@ public class CountryDaoImpl implements CountryDao {
         try {
             JDBCConnection connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            int result = statement.executeUpdate("DELETE FROM turfirma.country WHERE country_name LIKE '" + country.getCountry_name() + "';");
+            int result = statement.executeUpdate("DELETE FROM turfirma.country WHERE country_name = '" + country.getCountry_name() + "';");
             connection.getConnection().close();
             return result;
         } catch (Exception e) {

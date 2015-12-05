@@ -18,8 +18,12 @@ public class RoomDaoImpl implements RoomDao {
         try {
             JDBCConnection jdbcConnection = new JDBCConnection();
             Statement statement = jdbcConnection.getConnection().createStatement();
-            int result = statement.executeUpdate("INSERT INTO turfirma.room (room_number,capacity,id_hotel) values " +
-                    "(" + room.getRoom_number() + "," + room.getCapacity() + "," + room.getId_hotel() + ");");
+            int result = statement.executeUpdate("INSERT INTO turfirma.room (room_number,capacity,id_hotel) " +
+                    "values " +
+                    "(" +
+                    room.getRoom_number() + "," +
+                    room.getCapacity() + "," +
+                    room.getId_hotel() + ");");
             jdbcConnection.getConnection().close();
             return result;
         } catch (Exception e) {
@@ -37,6 +41,7 @@ public class RoomDaoImpl implements RoomDao {
                     "WHERE room_number = " + room.getRoom_number() +
                     " and capacity = " + room.getCapacity() +
                     " and id_hotel = " + room.getId_hotel() + " ;");
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }

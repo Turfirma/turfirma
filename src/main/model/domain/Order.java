@@ -5,7 +5,7 @@ import java.sql.Date;
 /**
  * Created by Максим on 05.12.2015.
  */
-public class Orders {
+public class Order {
 
     private int id_orders;
     private int id_hotel;
@@ -15,10 +15,10 @@ public class Orders {
     private Date check_in;
     private Date check_out;
 
-    public Orders() {
+    public Order() {
     }
 
-    public Orders(int id_hotel, int id_room, int id_client, Date check_in, Date check_out) {
+    public Order(int id_hotel, int id_room, int id_client, Date check_in, Date check_out) {
         this.id_hotel = id_hotel;
         this.id_room = id_room;
         this.id_client = id_client;
@@ -26,7 +26,7 @@ public class Orders {
         this.check_out = check_out;
     }
 
-    public Orders(int id_orders, Date check_out, int id_client, int id_hotel, int id_room, Date check_in) {
+    public Order(int id_orders, Date check_out, int id_client, int id_hotel, int id_room, Date check_in) {
         this.id_orders = id_orders;
         this.check_out = check_out;
         this.id_client = id_client;
