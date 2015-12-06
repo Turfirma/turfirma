@@ -80,7 +80,6 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
         return null;
     }
 
-
     public int howManyVisas(Country country) {
         try {
             JDBCConnection connection = new JDBCConnection();
@@ -89,10 +88,6 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
                     "WHERE id_country=(SELECT id_country FROM turfirma.country WHERE country_name " +
                     "LIKE '" + country.getCountry_name() + "');");
             set.next();
-
-
-
-
             return set.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();

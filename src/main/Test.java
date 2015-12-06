@@ -1,6 +1,8 @@
 package main;
 
 import main.controller.MainControl;
+import main.model.daoImpl.OpenedVisasDaoImpl;
+import main.model.domain.Country;
 import main.model.domain.Hotel;
 
 import java.text.ParseException;
@@ -19,5 +21,10 @@ public class Test {
         for (Hotel h: list) {
             System.out.println(h.getHotel_name());
         }
+
+        OpenedVisasDaoImpl openedVisasDao = new OpenedVisasDaoImpl();
+        Country country = new Country("USA");
+        System.out.println(openedVisasDao.howManyVisas(country));
+
     }
 }
