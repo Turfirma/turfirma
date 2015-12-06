@@ -1,9 +1,10 @@
 package main;
 
+
 import main.controller.MainControl;
+import main.model.dao.OpenedVisasDao;
 import main.model.daoImpl.OpenedVisasDaoImpl;
-import main.model.domain.Country;
-import main.model.domain.Hotel;
+import main.model.domain.OpenedVisas;
 
 import java.text.ParseException;
 import java.util.List;
@@ -16,15 +17,36 @@ public class Test {
 
     public static void main(String[]args) throws ParseException {
 
-        MainControl mainControl = new MainControl();
-        List<Hotel> list = mainControl.checkForHotelInCity("Lviv");
-        for (Hotel h: list) {
-            System.out.println(h.getHotel_name());
-        }
 
-        OpenedVisasDaoImpl openedVisasDao = new OpenedVisasDaoImpl();
-        Country country = new Country("USA");
-        System.out.println(openedVisasDao.howManyVisas(country));
+        MainControl mainControl = new MainControl();
+        mainControl.roomLoading("2015-01-01","2016-01-01");
+
+
+
+
+        /*OrdersDao ordersDao = new OrdersDaoImpl();
+        Order order = new Order();
+        order.setId_client(7);
+        order.setId_room(7);
+        order.setId_hotel(7);
+        String startDate = "2018-07-28";
+        String endDate = "2018-08-28";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        order.setCheck_in(new Date(simpleDateFormat.parse(startDate).getTime()));
+        order.setCheck_out(new Date(simpleDateFormat.parse(endDate).getTime()));
+        System.out.println(order);
+
+        System.out.println(ordersDao.createOrder(order));
+
+        System.out.println(ordersDao.deleteOrder(order));*/
+
+       /* OpenedVisasDao openedVisasDao = new OpenedVisasDaoImpl();
+
+
+       List<OpenedVisas> orders = openedVisasDao.getAll();
+        for (OpenedVisas order:orders){
+            System.out.println(order);
+        }*/
 
     }
 }

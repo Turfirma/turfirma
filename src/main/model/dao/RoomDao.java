@@ -16,5 +16,7 @@ public interface RoomDao {
 
     Room getRoomById(int iD);
 
+    String getCountrCityHotelbyId(int iD);
+
     Room findRoom();
 }

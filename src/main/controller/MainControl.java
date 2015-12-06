@@ -1,13 +1,16 @@
 package main.controller;
 
-import main.model.daoImpl.CityDaoImpl;
-import main.model.daoImpl.CountryDaoImpl;
-import main.model.daoImpl.HotelDaoImpl;
-import main.model.domain.City;
-import main.model.domain.Country;
-import main.model.domain.Hotel;
+import main.model.dao.HotelDao;
+import main.model.dao.OrdersDao;
+import main.model.dao.RoomDao;
+import main.model.daoImpl.*;
+import main.model.domain.*;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -46,6 +49,99 @@ public class MainControl {
 
     //6
     public int howManyVisas() {
+
         return 0;
+    }
+
+    //9
+
+    public ArrayList<String> roomLoading (String fromDate, String toDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        ArrayList<String> resultList = new ArrayList<>();
+
+        try {
+            Date startDate = new Date(simpleDateFormat.parse(fromDate).getTime());
+            Date endDate = new Date(simpleDateFormat.parse(toDate).getTime());
+
+            HashSet<RoomIdAndDays> rooms = new HashSet<>();
+            RoomDao roomDao = new RoomDaoImpl();
+            RoomIdAndDays roomIdAndDays;
+            Room room;
+
+            OrdersDao ordersDao = new OrdersDaoImpl();
+            List<Order> orders = ordersDao.getAll();
+
+            int counter = 0;
+            DateCompare dateCompare = new DateCompare();
+
+            for (Order order : orders ){
+
+                int result = (int) dateCompare.dateGetDifferenceInDateOrders(order,startDate,endDate);
+
+                if (result != -1){
+                    room = roomDao.getRoomById(order.getId_room());
+                    roomIdAndDays = new RoomIdAndDays();
+                    roomIdAndDays.setId_hotel(room.getId_hotel());
+                    roomIdAndDays.setId_room(room.getId_room());
+                    roomIdAndDays.setLoadingDays(result);
+
+                    if (rooms.contains(roomIdAndDays)) {
+                        for (RoomIdAndDays roomId : rooms){
+                            if (roomId.getId_room() == roomIdAndDays.getId_room()) roomId.setLoadingDays(roomId.getLoadingDays()+result);
+                        }
+                    }
+                    else{
+                        rooms.add(roomIdAndDays);
+                    }
+                    counter ++;
+                }
+            }
+
+            if (counter == 0){
+                resultList.add("No rooms is being booked" );
+                return resultList;
+            }
+            System.out.println("Country|City|Hotel|Room|Loading Days");
+
+
+
+            for (RoomIdAndDays roomIterator:rooms){
+                System.out.println(roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
+                        + roomIterator.getLoadingDays());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        resultList.add("The date is invalid");
+        return resultList;
+    }
+
+    private class RoomIdAndDays extends Room {
+
+         private int loadingDays;
+
+
+
+        public void setLoadingDays(int loadingDays) {
+            this.loadingDays = loadingDays;
+        }
+
+        public int getLoadingDays() {
+            return loadingDays;
+        }
+
+        @Override
+        public int hashCode(){
+            return RoomIdAndDays.this.getId_room();
+        }
+
+        @Override
+        public String toString() {
+            return "RoomIdAndDays{" +
+                    "id_room=" + super.getId_room() +
+                    "loadingDays=" + loadingDays +
+                    '}';
+        }
     }
 }
