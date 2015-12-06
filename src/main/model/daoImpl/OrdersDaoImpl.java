@@ -62,7 +62,7 @@ public class OrdersDaoImpl implements OrdersDao {
             ResultSet result = statement.executeQuery("SELECT * FROM turfirma.orders");
             while (result.next()) {
                 Order order = new Order();
-                order.setId_orders(result.getInt(1));
+                order.setId_order(result.getInt(1));
                 order.setId_hotel(result.getInt(2));
                 order.setId_room(result.getInt(3));
                 order.setCheck_in(result.getDate(4));

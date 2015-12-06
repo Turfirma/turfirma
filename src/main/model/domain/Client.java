@@ -34,7 +34,6 @@ public class Client {
     }
 
     public int getId_client() {
-
         return id_client;
     }
 
@@ -55,8 +54,13 @@ public class Client {
     }
 
     public Client(int id_country, String first_name, String last_name, String email) {
-
         this.id_country = id_country;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+    }
+
+    public Client(String first_name, String last_name, String email) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;

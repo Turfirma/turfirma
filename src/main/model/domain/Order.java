@@ -7,7 +7,7 @@ import java.sql.Date;
  */
 public class Order {
 
-    private int id_orders;
+    private int id_order;
     private int id_hotel;
     private int id_room;
     private int id_client;
@@ -26,8 +26,8 @@ public class Order {
         this.check_out = check_out;
     }
 
-    public Order(int id_orders, Date check_out, int id_client, int id_hotel, int id_room, Date check_in) {
-        this.id_orders = id_orders;
+    public Order(int id_order, Date check_out, int id_client, int id_hotel, int id_room, Date check_in) {
+        this.id_order = id_order;
         this.check_out = check_out;
         this.id_client = id_client;
         this.id_hotel = id_hotel;
@@ -35,12 +35,12 @@ public class Order {
         this.check_in = check_in;
     }
 
-    public int getId_orders() {
-        return id_orders;
+    public int getId_order() {
+        return id_order;
     }
 
-    public void setId_orders(int id_orders) {
-        this.id_orders = id_orders;
+    public void setId_order(int id_orders) {
+        this.id_order = id_orders;
     }
 
     public int getId_hotel() {
@@ -85,8 +85,8 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Orders{" +
-                "id_orders=" + id_orders +
+        return "Order{" +
+                "id_order=" + id_order +
                 ", id_hotel=" + id_hotel +
                 ", id_room=" + id_room +
                 ", id_client=" + id_client +

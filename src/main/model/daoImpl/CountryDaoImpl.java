@@ -44,11 +44,11 @@ public class CountryDaoImpl implements CountryDao {
             List<Country> list = new ArrayList<>();
             JDBCConnection connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM turfirma.country");
-            while (result.next()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM turfirma.country");
+            while (resultSet.next()) {
                 Country country = new Country();
-                country.setId_country(result.getInt(1));
-                country.setCountry_name(result.getString(2));
+                country.setId_country(resultSet.getInt(1));
+                country.setCountry_name(resultSet.getString(2));
                 list.add(country);
             }
             connection.getConnection().close();
@@ -60,7 +60,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public Country findCountry() {
+    public Country findCountry(int id_country) {
         return null;
     }
 

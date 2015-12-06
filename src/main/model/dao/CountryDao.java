@@ -17,5 +17,5 @@ public interface CountryDao {
 
     List<Country> getAll();
 
-    Country findCountry();
+    Country findCountry(int id_country);
 }

@@ -6,10 +6,10 @@ import main.model.dao.RoomDao;
 import main.model.daoImpl.*;
 import main.model.domain.*;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,11 +47,35 @@ public class MainControl {
         return listInCity;
     }
 
-    //6
-    public int howManyVisas() {
-
-        return 0;
+    //5. Кількість віз для конкретного клієнта
+    public int quantityOfClientsVisas (String firstName, String lastName, String email) {
+        return new ClientDaoImpl().clientVisasAmount(new Client(firstName, lastName, email));
     }
+
+    //6. Скільки віз видано в певну країну
+    public int howManyVisas(String name) {
+        return new OpenedVisasDaoImpl().howManyVisas(new Country(name));
+    }
+
+    //8. Отримати статистику по клієнту (які країни відвідував, які має візи)
+    public String clientStatistics (String firstName, String lastName, String email) {
+        List<String> listOfCurrentVisas;
+        List<String> listOfVisitedCountries;
+        ClientDaoImpl cd = new ClientDaoImpl();
+        listOfCurrentVisas = cd.currentVisas(new Client(firstName,lastName,email));
+        listOfVisitedCountries = cd.visitedCountries(new Client(firstName,lastName,email));
+        StringBuilder sb = new StringBuilder();
+        System.out.println("Current");
+        for (String s: listOfCurrentVisas) {
+            System.out.println(s+" ");
+        }
+        System.out.println("Visited");
+        for (String s: listOfVisitedCountries) {
+            System.out.println(s+" ");
+        }
+        return null;
+    }
+
 
     //9
 
