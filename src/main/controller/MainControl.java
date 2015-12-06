@@ -104,11 +104,11 @@ public class MainControl {
             }
             System.out.println("Country|City|Hotel|Room|Loading Days");
 
-
-
             for (RoomIdAndDays roomIterator:rooms){
-                System.out.println(roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
-                        + roomIterator.getLoadingDays());
+                String stringStatistic = roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
+                        + roomIterator.getLoadingDays();
+                resultList.add(stringStatistic);
+                System.out.println(stringStatistic);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -144,4 +144,13 @@ public class MainControl {
                     '}';
         }
     }
+
+    //10
+    public  ArrayList<String> hotelStatistic(){
+        HotelDao hotelDao = new HotelDaoImpl();
+        /*List<>*/
+        return null;
+    }
+
+
 }
