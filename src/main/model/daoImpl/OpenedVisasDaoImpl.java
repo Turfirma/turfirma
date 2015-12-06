@@ -5,6 +5,7 @@ import main.model.domain.Country;
 import main.model.domain.OpenedVisas;
 import main.model.resources.JDBCConnection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ import java.util.List;
  * Created by Максим on 05.12.2015.
  */
 public class OpenedVisasDaoImpl implements OpenedVisasDao {
+
+    private final static String HOW_MANY_VISAS = "SELECT COUNT(id_country) FROM turfirma.opened_visas " +
+            "WHERE id_country=(SELECT id_country FROM turfirma.country WHERE country_name LIKE ?);";
 
     @Override
     public int createVisas(OpenedVisas visas) {
@@ -80,15 +84,14 @@ public class OpenedVisasDaoImpl implements OpenedVisasDao {
         return null;
     }
 
-    public int howManyVisas(Country country) {
+    public int howManyVisas(String country) {
         try {
             JDBCConnection connection = new JDBCConnection();
-            Statement statement = connection.getConnection().createStatement();
-            ResultSet set = statement.executeQuery("SELECT COUNT(id_country) FROM turfirma.opened_visas " +
-                    "WHERE id_country=(SELECT id_country FROM turfirma.country WHERE country_name " +
-                    "LIKE '" + country.getCountry_name() + "');");
-            set.next();
-            return set.getInt(1);
+            PreparedStatement ps = connection.getConnection().prepareStatement(HOW_MANY_VISAS);
+            ps.setString(1, country);
+            ResultSet resultSet = ps.executeQuery();
+            connection.getConnection().close();
+            return resultSet.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
