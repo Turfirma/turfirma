@@ -47,17 +47,17 @@ public class MainControl {
         return listInCity;
     }
 
-    //5. Кількість віз для конкретного клієнта
+    //5. КіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅлієпїЅпїЅпїЅ
     public int quantityOfClientsVisas (String firstName, String lastName, String email) {
         return new ClientDaoImpl().clientVisasAmount(new Client(firstName, lastName, email));
     }
 
-    //6. Скільки віз видано в певну країну
+    //6. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     public int howManyVisas(String name) {
         return new OpenedVisasDaoImpl().howManyVisas(new Country(name));
     }
 
-    //8. Отримати статистику по клієнту (які країни відвідував, які має візи)
+    //8. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅлієпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ)
     public String clientStatistics (String firstName, String lastName, String email) {
         List<String> listOfCurrentVisas;
         List<String> listOfVisitedCountries;
@@ -80,8 +80,8 @@ public class MainControl {
     //9
 
     public ArrayList<String> roomLoading (String fromDate, String toDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<String> resultList = new ArrayList<>();
 
         try {
@@ -115,9 +115,7 @@ public class MainControl {
                             if (roomId.getId_room() == roomIdAndDays.getId_room()) roomId.setLoadingDays(roomId.getLoadingDays()+result);
                         }
                     }
-                    else{
-                        rooms.add(roomIdAndDays);
-                    }
+                    else rooms.add(roomIdAndDays);
                     counter ++;
                 }
             }
@@ -128,8 +126,10 @@ public class MainControl {
             }
             System.out.println("Country|City|Hotel|Room|Loading Days");
 
+            String stringStatistic;
+
             for (RoomIdAndDays roomIterator:rooms){
-                String stringStatistic = roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
+                stringStatistic = roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
                         + roomIterator.getLoadingDays();
                 resultList.add(stringStatistic);
                 System.out.println(stringStatistic);
@@ -145,8 +145,6 @@ public class MainControl {
 
          private int loadingDays;
 
-
-
         public void setLoadingDays(int loadingDays) {
             this.loadingDays = loadingDays;
         }
@@ -159,22 +157,91 @@ public class MainControl {
         public int hashCode(){
             return RoomIdAndDays.this.getId_room();
         }
-
-        @Override
-        public String toString() {
-            return "RoomIdAndDays{" +
-                    "id_room=" + super.getId_room() +
-                    "loadingDays=" + loadingDays +
-                    '}';
-        }
     }
 
     //10
     public  ArrayList<String> hotelStatistic(){
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<String> resultList = new ArrayList<>();
+
+        HashSet<HotelsAndDays> hotelsAndDayses = new HashSet<>();
         HotelDao hotelDao = new HotelDaoImpl();
-        /*List<>*/
-        return null;
+        List<Hotel> hotelList = hotelDao.getAll();
+
+        for (Hotel hotel:hotelList){
+            HotelsAndDays hotelsAndDays = new HotelsAndDays(hotel.getId_hotel(),hotel.getHotel_name());
+            hotelsAndDayses.add(hotelsAndDays);
+        }
+
+        OrdersDao ordersDao = new OrdersDaoImpl();
+        List<Order> orderList = ordersDao.getAll();
+
+        if (orderList.isEmpty()) {
+            String end = "No orders i DATABASE";
+            resultList.add(end);
+            return resultList;
+        }
+
+        int orderDays;
+        for (Order order:orderList){
+            orderDays = (int) (order.getCheck_out().getTime()-order.getCheck_in().getTime())/(24*60*60*1000);
+            for (HotelsAndDays hotelsAndDays:hotelsAndDayses){
+                if(hotelsAndDays.getId_hotel() == order.getId_hotel()){
+                    hotelsAndDays.setLoadingDays(hotelsAndDays.getLoadingDays() + orderDays);
+                    hotelsAndDays.setClients(hotelsAndDays.getClients()+1);
+                }
+            }
+        }
+
+        System.out.println("Country|City|Hotel|Clients|Average mount of days");
+
+        String statistics;
+
+        for (HotelsAndDays hotelsAndDays:hotelsAndDayses){
+            if (hotelsAndDays.getClients()!=0) hotelsAndDays.setAvarageOrder((float)hotelsAndDays.getLoadingDays()/hotelsAndDays.getClients());
+            statistics = hotelDao.getCountryCityById(hotelsAndDays.getId_hotel()) + " | "
+                    + hotelsAndDays.getHotel_name() + " | "
+                    + hotelsAndDays.getClients() + " | " + hotelsAndDays.getAvarageOrder();
+            resultList.add(statistics);
+            System.out.println(statistics);
+        }
+        return resultList;
     }
 
+    private class HotelsAndDays extends Hotel{
 
+        private int loadingDays;
+        private int clients ;
+        private float avarageOrder ;
+
+        HotelsAndDays (int iD ,String hotel_name){
+            super.setHotel_name(hotel_name);
+            this.setId_hotel(iD);
+        }
+
+        public int getLoadingDays() {
+            return loadingDays;
+        }
+
+        public void setLoadingDays(int loadingDays) {
+            this.loadingDays = loadingDays;
+        }
+
+        public int getClients() {
+            return clients;
+        }
+
+        public void setClients(int clients) {
+            this.clients = clients;
+        }
+
+        public double getAvarageOrder() {
+            return avarageOrder;
+        }
+
+        public void setAvarageOrder(float avarageOrder) {
+            this.avarageOrder = avarageOrder;
+        }
+    }
 }

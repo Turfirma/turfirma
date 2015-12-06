@@ -5,6 +5,7 @@ import main.model.domain.Client;
 import main.model.domain.Hotel;
 import main.model.resources.JDBCConnection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ import java.util.List;
  * Created by bo4ek on 05.12.2015.
  */
 public class HotelDaoImpl implements HotelDao {
+
+    private final static String GET_INFO_COUNTRY_CITY = " SELECT country_name,city_name FROM turfirma.hotels \n" +
+            "INNER JOIN turfirma.city ON hotels.id_city = city.id_city\n" +
+            "INNER JOIN turfirma.country ON city.id_country = country.id_country WHERE id_hotel = ? ; " ;
+
     @Override
     public int createHotel(Hotel hotel) {
         try {
@@ -69,6 +75,26 @@ public class HotelDaoImpl implements HotelDao {
             }
             connection.getConnection().close();
             return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String getCountryCityById(int iD) {
+        try {
+            String allInfo = null;
+            JDBCConnection connection = new JDBCConnection();
+            PreparedStatement preparedStatement = connection.getConnection().prepareStatement(GET_INFO_COUNTRY_CITY);
+            preparedStatement.setInt(1,iD);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                allInfo = " " + resultSet.getString(1) + " | "
+                        + resultSet.getString(2) + " | ";
+            }
+            connection.getConnection().close();
+            return allInfo;
         } catch (Exception e) {
             e.printStackTrace();
         }

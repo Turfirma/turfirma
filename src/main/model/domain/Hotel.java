@@ -51,6 +51,11 @@ public class Hotel {
     }
 
     @Override
+    public int hashCode(){
+        return id_hotel;
+    }
+
+    @Override
     public String toString() {
         return "Hotel{" +
                 "id_hotel=" + id_hotel +
