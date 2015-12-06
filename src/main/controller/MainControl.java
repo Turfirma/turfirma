@@ -47,17 +47,17 @@ public class MainControl {
         return listInCity;
     }
 
-    //5. ʳ������ �� ��� ����������� �볺���
+    //5.
     public int quantityOfClientsVisas (String firstName, String lastName, String email) {
         return new ClientDaoImpl().clientVisasAmount(new Client(firstName, lastName, email));
     }
 
-    //6. ������ �� ������ � ����� �����
-    public int howManyVisas(String name) {
-        return new OpenedVisasDaoImpl().howManyVisas(new Country(name));
+    //6.
+    public int howManyVisas(String country) {
+        return new OpenedVisasDaoImpl().howManyVisas(country);
     }
 
-    //8. �������� ���������� �� �볺��� (�� ����� ��������, �� �� ���)
+    //8.
     public String clientStatistics (String firstName, String lastName, String email) {
         List<String> listOfCurrentVisas;
         List<String> listOfVisitedCountries;
