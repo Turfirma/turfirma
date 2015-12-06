@@ -73,6 +73,27 @@ public class RoomDaoImpl implements RoomDao {
     }
 
     @Override
+    public Room getRoomById(int iD) {
+        try {
+            Room room = new Room();
+            JDBCConnection connection = new JDBCConnection();
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM turfirma.room WHERE id_room = " + iD + ";");
+            while (result.next()) {
+                room.setId_room(result.getInt(1));
+                room.setRoom_number(result.getInt(2));
+                room.setCapacity(result.getInt(3));
+                room.setId_hotel(result.getInt(4));
+            }
+            connection.getConnection().close();
+            return room;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public Room findRoom() {
         return null;
     }
