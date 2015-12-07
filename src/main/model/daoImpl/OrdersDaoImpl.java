@@ -1,19 +1,31 @@
 package main.model.daoImpl;
 
 import main.model.dao.OrdersDao;
+import main.model.domain.Hotel;
 import main.model.domain.Order;
+import main.model.domain.Room;
 import main.model.resources.JDBCConnection;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Максим on 05.12.2015.
+ * Project name: turfirma
+ *
+ * Created by Максим
+ * Date: 05.12.2015
  */
 public class OrdersDaoImpl implements OrdersDao {
 
+    private static final String AVAILABLE_ROOMS = "SELECT room.room_number, room.capacity, room.id_room " +
+            "FROM room WHERE room.id_hotel = ? AND room.id_room NOT IN " +
+            "(SELECT orders.id_room FROM orders WHERE " +
+            "(orders.check_out >= ? AND orders.check_in <=  ?) " +
+            "OR (orders.check_out <= ? AND orders.check_in >=  ?));";
 
     @Override
     public int createOrder(Order order) {
@@ -37,7 +49,7 @@ public class OrdersDaoImpl implements OrdersDao {
 
     @Override
     public int deleteOrder(Order order) {
-        try{
+        try {
             JDBCConnection jdbcConnection = new JDBCConnection();
             Statement statement = jdbcConnection.getConnection().createStatement();
             int result = statement.executeUpdate("delete from turfirma.orders where " +
@@ -45,7 +57,8 @@ public class OrdersDaoImpl implements OrdersDao {
                     " and id_room = " + order.getId_room() +
                     " and check_in = ' " + order.getCheck_in() + " ' " +
                     " and check_out = ' " + order.getCheck_out() + " ' " +
-                    " and id_client = " + order.getId_client() +" ;");
+                    " and id_client = " + order.getId_client() + " ;");
+            jdbcConnection.getConnection().close();
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +92,44 @@ public class OrdersDaoImpl implements OrdersDao {
     }
 
     @Override
-    public Order findRoom() {
+    public List<Room> findFreeRooms(int hotel_id, Date check_in, Date check_out) {
+        try {
+            List<Room> list = new ArrayList<>();
+            JDBCConnection connection = new JDBCConnection();
+            System.out.println("Checking for available rooms before Prepared");
+            PreparedStatement ps = connection.getConnection().prepareStatement(AVAILABLE_ROOMS);
+            System.out.println("Checking for available rooms after Prepared");
+            ps.setInt(1, hotel_id);
+            ps.setDate(2, check_in);
+            ps.setDate(3, check_out);
+            ps.setDate(4, check_in);
+            ps.setDate(5, check_out);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                Room room = new Room();
+                room.setId_hotel(hotel_id);
+                room.setRoom_number(resultSet.getInt(1));
+                room.setCapacity(resultSet.getInt(2));
+                room.setId_room(resultSet.getInt(3));
+                list.add(room);
+            }
+            connection.getConnection().close();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
+    }
+
+    @Override
+    public List<Hotel> findFreeHotels(int cityId, Date checkIn, Date checkOut) {
+        List<Hotel> allHotels = new HotelDaoImpl().findHotelByCityId(cityId);
+        List<Hotel> availableHotels = new ArrayList<>();
+        for (Hotel hotel: allHotels) {
+            if (findFreeRooms(hotel.getId_hotel(),checkIn,checkOut).size()>=1) {
+                availableHotels.add(hotel);
+            }
+        }
+        return availableHotels;
     }
 }

@@ -12,4 +12,5 @@ public interface HotelDao {
     int deleteHotel(Hotel hotel);
     List<Hotel> getAll();
     String getCountryCityById (int iD);
+    List<Hotel> findHotelByCityId(int cityId);
 }

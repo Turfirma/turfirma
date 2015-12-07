@@ -2,7 +2,6 @@ package main.model.daoImpl;
 
 import main.model.dao.ClientDao;
 import main.model.domain.Client;
-import main.model.domain.Country;
 import main.model.resources.JDBCConnection;
 
 import java.sql.PreparedStatement;
@@ -12,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by bo4ek on 05.12.2015.
+ * Project name: turfirma
+ *
+ * Created by bo4ek
+ * Date: 05.12.2015
  */
 public class ClientDaoImpl implements ClientDao {
     private static final String TASK5 = "SELECT COUNT(id_client) FROM turfirma.opened_visas WHERE id_client = ";
@@ -76,14 +78,14 @@ public class ClientDaoImpl implements ClientDao {
             List<Client> list = new ArrayList<>();
             JDBCConnection connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM turfirma.client");
-            while (result.next()) {
+            ResultSet set = statement.executeQuery("SELECT * FROM turfirma.client");
+            while (set.next()) {
                 Client client = new Client();
-                client.setId_client(result.getInt(1));
-                client.setFirst_name(result.getString(2));
-                client.setLast_name(result.getString(3));
-                client.setEmail(result.getString(4));
-                client.setId_country(result.getInt(5));
+                client.setId_client(set.getInt(1));
+                client.setFirst_name(set.getString(2));
+                client.setLast_name(set.getString(3));
+                client.setEmail(set.getString(4));
+                client.setId_country(set.getInt(5));
                 list.add(client);
             }
             connection.getConnection().close();
@@ -103,7 +105,9 @@ public class ClientDaoImpl implements ClientDao {
             ps.setString(3, client.getEmail());
             ResultSet set = ps.executeQuery();
             set.next();
-            return set.getInt(1);
+            int i = set.getInt(1);
+            connection.getConnection().close();
+            return i;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,7 +123,9 @@ public class ClientDaoImpl implements ClientDao {
             ps.setString(3, client.getEmail());
             ResultSet set = ps.executeQuery();
             set.next();
-            return set.getInt(1);
+            int i = set.getInt(1);
+            connection.getConnection().close();
+            return i;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,10 +139,11 @@ public class ClientDaoImpl implements ClientDao {
             JDBCConnection connection = new JDBCConnection();
             PreparedStatement ps = connection.getConnection().prepareStatement(CURRENT_VISAS);
             ps.setInt(1, id_client);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
+            ResultSet set = ps.executeQuery();
+            while (set.next()) {
+                list.add(set.getString(1));
             }
+            connection.getConnection().close();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,10 +158,11 @@ public class ClientDaoImpl implements ClientDao {
             JDBCConnection connection = new JDBCConnection();
             PreparedStatement ps = connection.getConnection().prepareStatement(VISITED_COUNTRIES);
             ps.setInt(1, id_client);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
+            ResultSet set = ps.executeQuery();
+            while (set.next()) {
+                list.add(set.getString(1));
             }
+            connection.getConnection().close();
             return list;
         } catch (Exception e) {
             e.printStackTrace();

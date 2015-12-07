@@ -12,4 +12,6 @@ public interface CityDao {
     int createCity(City city, Country country);
     int deleteCity(City city);
     List<City> getAll();
+    List<City> findCityByCountryId(int countryId);
+    List<City> findCityByCountryName(String countryName);
 }

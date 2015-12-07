@@ -1,7 +1,10 @@
 package main.model.dao;
 
+import main.model.domain.Hotel;
 import main.model.domain.Order;
+import main.model.domain.Room;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -15,5 +18,7 @@ public interface OrdersDao {
 
     List<Order> getAll();
 
-    Order findRoom();
+    List<Room> findFreeRooms(int hotelId, Date checkIn, Date checkOut);
+
+    List<Hotel> findFreeHotels(int cityId, Date checkIn, Date checkOut);
 }

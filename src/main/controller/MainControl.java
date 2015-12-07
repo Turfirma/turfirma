@@ -14,21 +14,24 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Created by bo4ek on 05.12.2015.
+ * Project name: turfirma
+ *
+ * Created by bo4ek
+ * Date: 05.12.2015
  */
 public class MainControl {
 
-    //1.1
+    //1.1.
     public List<Country> getAllCountries() {
         return new CountryDaoImpl().getAll();
     }
 
-    //1.2
+    //1.2.
     public List<City> getAllCities() {
         return new CityDaoImpl().getAll();
     }
 
-    //2
+    //2.
     public List<Hotel> checkForHotelInCity(String cityName) {
         List<City> listAllCities = getAllCities();
         int id_city = 0;
@@ -47,8 +50,18 @@ public class MainControl {
         return listInCity;
     }
 
+    //3.
+    public List<Room> checkForAvailableRooms(int hotelId, Date check_in, Date check_out) {
+        return new OrdersDaoImpl().findFreeRooms(hotelId, check_in, check_out);
+    }
+
+    //4.
+    public List<Hotel> checkForAvailableHotels(int cityId, Date check_in, Date check_out) {
+        return new OrdersDaoImpl().findFreeHotels(cityId, check_in, check_out);
+    }
+
     //5.
-    public int quantityOfClientsVisas (String firstName, String lastName, String email) {
+    public int quantityOfClientsVisas(String firstName, String lastName, String email) {
         return new ClientDaoImpl().clientVisasAmount(new Client(firstName, lastName, email));
     }
 
@@ -58,28 +71,26 @@ public class MainControl {
     }
 
     //8.
-    public String clientStatistics (String firstName, String lastName, String email) {
+    public String clientStatistics(String firstName, String lastName, String email) {
         List<String> listOfCurrentVisas;
         List<String> listOfVisitedCountries;
         ClientDaoImpl cd = new ClientDaoImpl();
-        listOfCurrentVisas = cd.currentVisas(new Client(firstName,lastName,email));
-        listOfVisitedCountries = cd.visitedCountries(new Client(firstName,lastName,email));
+        listOfCurrentVisas = cd.currentVisas(new Client(firstName, lastName, email));
+        listOfVisitedCountries = cd.visitedCountries(new Client(firstName, lastName, email));
         StringBuilder sb = new StringBuilder();
         System.out.println("Current");
-        for (String s: listOfCurrentVisas) {
-            System.out.println(s+" ");
+        for (String s : listOfCurrentVisas) {
+            System.out.println(s + " ");
         }
         System.out.println("Visited");
-        for (String s: listOfVisitedCountries) {
-            System.out.println(s+" ");
+        for (String s : listOfVisitedCountries) {
+            System.out.println(s + " ");
         }
         return null;
     }
 
-
-    //9
-
-    public ArrayList<String> roomLoading (String fromDate, String toDate) {
+    //9.
+    public ArrayList<String> roomLoading(String fromDate, String toDate) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<String> resultList = new ArrayList<>();
@@ -99,11 +110,11 @@ public class MainControl {
             int counter = 0;
             DateCompare dateCompare = new DateCompare();
 
-            for (Order order : orders ){
+            for (Order order : orders) {
 
-                int result = (int) dateCompare.dateGetDifferenceInDateOrders(order,startDate,endDate);
+                int result = (int) dateCompare.dateGetDifferenceInDateOrders(order, startDate, endDate);
 
-                if (result != -1){
+                if (result != -1) {
                     room = roomDao.getRoomById(order.getId_room());
                     roomIdAndDays = new RoomIdAndDays();
                     roomIdAndDays.setId_hotel(room.getId_hotel());
@@ -111,24 +122,24 @@ public class MainControl {
                     roomIdAndDays.setLoadingDays(result);
 
                     if (rooms.contains(roomIdAndDays)) {
-                        for (RoomIdAndDays roomId : rooms){
-                            if (roomId.getId_room() == roomIdAndDays.getId_room()) roomId.setLoadingDays(roomId.getLoadingDays()+result);
+                        for (RoomIdAndDays roomId : rooms) {
+                            if (roomId.getId_room() == roomIdAndDays.getId_room())
+                                roomId.setLoadingDays(roomId.getLoadingDays() + result);
                         }
-                    }
-                    else rooms.add(roomIdAndDays);
-                    counter ++;
+                    } else rooms.add(roomIdAndDays);
+                    counter++;
                 }
             }
 
-            if (counter == 0){
-                resultList.add("No rooms is being booked" );
+            if (counter == 0) {
+                resultList.add("No rooms is being booked");
                 return resultList;
             }
             System.out.println("Country|City|Hotel|Room|Loading Days");
 
             String stringStatistic;
 
-            for (RoomIdAndDays roomIterator:rooms){
+            for (RoomIdAndDays roomIterator : rooms) {
                 stringStatistic = roomDao.getCountrCityHotelbyId(roomIterator.getId_room())
                         + roomIterator.getLoadingDays();
                 resultList.add(stringStatistic);
@@ -143,7 +154,7 @@ public class MainControl {
 
     private class RoomIdAndDays extends Room {
 
-         private int loadingDays;
+        private int loadingDays;
 
         public void setLoadingDays(int loadingDays) {
             this.loadingDays = loadingDays;
@@ -154,13 +165,13 @@ public class MainControl {
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             return RoomIdAndDays.this.getId_room();
         }
     }
 
-    //10
-    public  ArrayList<String> hotelStatistic(){
+    //10.
+    public ArrayList<String> hotelStatistic() {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<String> resultList = new ArrayList<>();
@@ -169,8 +180,8 @@ public class MainControl {
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotelList = hotelDao.getAll();
 
-        for (Hotel hotel:hotelList){
-            HotelsAndDays hotelsAndDays = new HotelsAndDays(hotel.getId_hotel(),hotel.getHotel_name());
+        for (Hotel hotel : hotelList) {
+            HotelsAndDays hotelsAndDays = new HotelsAndDays(hotel.getId_hotel(), hotel.getHotel_name());
             hotelsAndDayses.add(hotelsAndDays);
         }
 
@@ -184,12 +195,12 @@ public class MainControl {
         }
 
         int orderDays;
-        for (Order order:orderList){
-            orderDays = (int) (order.getCheck_out().getTime()-order.getCheck_in().getTime())/(24*60*60*1000);
-            for (HotelsAndDays hotelsAndDays:hotelsAndDayses){
-                if(hotelsAndDays.getId_hotel() == order.getId_hotel()){
+        for (Order order : orderList) {
+            orderDays = (int) (order.getCheck_out().getTime() - order.getCheck_in().getTime()) / (24 * 60 * 60 * 1000);
+            for (HotelsAndDays hotelsAndDays : hotelsAndDayses) {
+                if (hotelsAndDays.getId_hotel() == order.getId_hotel()) {
                     hotelsAndDays.setLoadingDays(hotelsAndDays.getLoadingDays() + orderDays);
-                    hotelsAndDays.setClients(hotelsAndDays.getClients()+1);
+                    hotelsAndDays.setClients(hotelsAndDays.getClients() + 1);
                 }
             }
         }
@@ -198,8 +209,9 @@ public class MainControl {
 
         String statistics;
 
-        for (HotelsAndDays hotelsAndDays:hotelsAndDayses){
-            if (hotelsAndDays.getClients()!=0) hotelsAndDays.setAvarageOrder((float)hotelsAndDays.getLoadingDays()/hotelsAndDays.getClients());
+        for (HotelsAndDays hotelsAndDays : hotelsAndDayses) {
+            if (hotelsAndDays.getClients() != 0)
+                hotelsAndDays.setAvarageOrder((float) hotelsAndDays.getLoadingDays() / hotelsAndDays.getClients());
             statistics = hotelDao.getCountryCityById(hotelsAndDays.getId_hotel()) + " | "
                     + hotelsAndDays.getHotel_name() + " | "
                     + hotelsAndDays.getClients() + " | " + hotelsAndDays.getAvarageOrder();
@@ -209,13 +221,13 @@ public class MainControl {
         return resultList;
     }
 
-    private class HotelsAndDays extends Hotel{
+    private class HotelsAndDays extends Hotel {
 
         private int loadingDays;
-        private int clients ;
-        private float avarageOrder ;
+        private int clients;
+        private float avarageOrder;
 
-        HotelsAndDays (int iD ,String hotel_name){
+        HotelsAndDays(int iD, String hotel_name) {
             super.setHotel_name(hotel_name);
             this.setId_hotel(iD);
         }

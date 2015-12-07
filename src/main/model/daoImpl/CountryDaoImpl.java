@@ -10,10 +10,15 @@ import java.util.List;
 
 public class CountryDaoImpl implements CountryDao {
 
+    private final static String FIND_COUNTRY_BY_COUNTRY_NAME = "SELECT id_country FROM turfirma.country " +
+            "WHERE country_name LIKE ?;";
+
+    private JDBCConnection connection;
+
     @Override
     public int createCountry(Country country) {
         try {
-            JDBCConnection connection = new JDBCConnection();
+            connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
             int result = statement.executeUpdate("INSERT INTO turfirma.country (country_name) VALUE ('" + country.getCountry_name() + "');");
             connection.getConnection().close();
@@ -27,7 +32,7 @@ public class CountryDaoImpl implements CountryDao {
     @Override
     public int deleteCountry(Country country) {
         try {
-            JDBCConnection connection = new JDBCConnection();
+            connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
             int result = statement.executeUpdate("DELETE FROM turfirma.country WHERE country_name = '" + country.getCountry_name() + "';");
             connection.getConnection().close();
@@ -42,9 +47,9 @@ public class CountryDaoImpl implements CountryDao {
     public List<Country> getAll() {
         try {
             List<Country> list = new ArrayList<>();
-            JDBCConnection connection = new JDBCConnection();
+            connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM turfirma.country");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM turfirma.country GROUP BY id_country");
             while (resultSet.next()) {
                 Country country = new Country();
                 country.setId_country(resultSet.getInt(1));
@@ -60,8 +65,20 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public Country findCountry(int id_country) {
-        return null;
+    public int findIdCountryByName(String countryName) {
+        try {
+            connection = new JDBCConnection();
+            PreparedStatement ps = connection.getConnection().prepareStatement(FIND_COUNTRY_BY_COUNTRY_NAME);
+            ps.setString(1, countryName);
+            ResultSet set = ps.executeQuery();
+            set.next();
+            int i = set.getInt(1);
+            connection.getConnection().close();
+            return i;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }
