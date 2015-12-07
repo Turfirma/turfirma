@@ -2,6 +2,7 @@ package main.model.daoImpl;
 
 import main.model.dao.ClientDao;
 import main.model.domain.Client;
+import main.model.domain.Country;
 import main.model.resources.JDBCConnection;
 
 import java.sql.PreparedStatement;
@@ -17,7 +18,9 @@ import java.util.List;
  * Date: 05.12.2015
  */
 public class ClientDaoImpl implements ClientDao {
-    private static final String TASK5 = "SELECT COUNT(id_client) FROM turfirma.opened_visas WHERE id_client = ";
+    private static final String CLIENT_VISAS_AMOUNT = "SELECT COUNT(id_client) FROM turfirma.opened_visas WHERE id_client = " +
+            "(SELECT id_client FROM client WHERE client.last_name LIKE ? " +
+            "AND client.first_name LIKE ? AND client.email LIKE ?);";
 
     private static final String ID_CLIENT = "(SELECT id_client FROM client WHERE client.last_name LIKE ? " +
             "AND client.first_name LIKE ? AND client.email LIKE ?);";
@@ -33,17 +36,24 @@ public class ClientDaoImpl implements ClientDao {
             "WHERE orders.id_client = ? " +
             "AND CURDATE() >= orders.check_in;";
 
+    private static final String INSERT_CLIENT = "INSERT INTO client (first_name, last_name, email, id_country) " +
+            "VALUES (?,?,?,(SELECT id_country FROM country WHERE country_name LIKE ?));";
+
+    private static final String DELETE_CLIENT = "DELETE FROM client WHERE first_name LIKE ? " +
+            "AND last_name LIKE ? AND email LIKE ?;";
+
+    private JDBCConnection connection;
+
     @Override
     public int createClient(Client client) {
         try {
-            JDBCConnection connection = new JDBCConnection();
-            Statement statement = connection.getConnection().createStatement();
-            int result = statement.executeUpdate("INSERT INTO turfirma.client (first_name, last_name, email, id_country) VALUES " +
-                    "('" + client.getFirst_name()
-                    + "','" + client.getLast_name()
-                    + "','" + client.getEmail()
-                    + "','" + client.getId_country()
-                    + "');");
+            connection = new JDBCConnection();
+            PreparedStatement ps = connection.getConnection().prepareStatement(INSERT_CLIENT);
+            ps.setString(1, client.getFirst_name());
+            ps.setString(2, client.getLast_name());
+            ps.setString(3, client.getEmail());
+            ps.setString(4, client.getCountryName());
+            int result = ps.executeUpdate();
             connection.getConnection().close();
             return result;
         } catch (Exception e) {
@@ -55,15 +65,12 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public int deleteClient(Client client) {
         try {
-            JDBCConnection connection = new JDBCConnection();
-            Statement statement = connection.getConnection().createStatement();
-            int result = statement.executeUpdate("DELETE FROM turfirma.client WHERE first_name LIKE '"
-                    + client.getFirst_name()
-                    + "' AND last_name LIKE '"
-                    + client.getLast_name()
-                    + "' AND email LIKE '"
-                    + client.getEmail()
-                    + "';");
+            connection = new JDBCConnection();
+            PreparedStatement ps = connection.getConnection().prepareStatement(DELETE_CLIENT);
+            ps.setString(1, client.getFirst_name());
+            ps.setString(2, client.getLast_name());
+            ps.setString(3, client.getEmail());
+            int result = ps.executeUpdate();
             connection.getConnection().close();
             return result;
         } catch (Exception e) {
@@ -73,10 +80,10 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public List<Client> getAll() {
+    public List<Client> findAll() {
         try {
             List<Client> list = new ArrayList<>();
-            JDBCConnection connection = new JDBCConnection();
+            connection = new JDBCConnection();
             Statement statement = connection.getConnection().createStatement();
             ResultSet set = statement.executeQuery("SELECT * FROM turfirma.client");
             while (set.next()) {
@@ -85,7 +92,7 @@ public class ClientDaoImpl implements ClientDao {
                 client.setFirst_name(set.getString(2));
                 client.setLast_name(set.getString(3));
                 client.setEmail(set.getString(4));
-                client.setId_country(set.getInt(5));
+                client.setCountryName(set.getString(5));
                 list.add(client);
             }
             connection.getConnection().close();
@@ -96,10 +103,11 @@ public class ClientDaoImpl implements ClientDao {
         return null;
     }
 
+    @Override
     public int clientVisasAmount(Client client) {
         try {
-            JDBCConnection connection = new JDBCConnection();
-            PreparedStatement ps = connection.getConnection().prepareStatement(TASK5 + ID_CLIENT);
+            connection = new JDBCConnection();
+            PreparedStatement ps = connection.getConnection().prepareStatement(CLIENT_VISAS_AMOUNT);
             ps.setString(1, client.getLast_name());
             ps.setString(2, client.getFirst_name());
             ps.setString(3, client.getEmail());
@@ -114,9 +122,10 @@ public class ClientDaoImpl implements ClientDao {
         return 0;
     }
 
-    public int getIdClientFromDB(Client client) {
+    @Override
+    public int findIdClientInDB(Client client) {
         try {
-            JDBCConnection connection = new JDBCConnection();
+            connection = new JDBCConnection();
             PreparedStatement ps = connection.getConnection().prepareStatement(ID_CLIENT);
             ps.setString(1, client.getLast_name());
             ps.setString(2, client.getFirst_name());
@@ -132,11 +141,12 @@ public class ClientDaoImpl implements ClientDao {
         return 0;
     }
 
+    @Override
     public List<String> currentVisas(Client client) {
         try {
             List<String> list = new ArrayList<>();
-            int id_client = getIdClientFromDB(client);
-            JDBCConnection connection = new JDBCConnection();
+            int id_client = findIdClientInDB(client);
+            connection = new JDBCConnection();
             PreparedStatement ps = connection.getConnection().prepareStatement(CURRENT_VISAS);
             ps.setInt(1, id_client);
             ResultSet set = ps.executeQuery();
@@ -151,11 +161,12 @@ public class ClientDaoImpl implements ClientDao {
         return null;
     }
 
+    @Override
     public List<String> visitedCountries(Client client) {
         try {
             List<String> list = new ArrayList<>();
-            int id_client = getIdClientFromDB(client);
-            JDBCConnection connection = new JDBCConnection();
+            int id_client = findIdClientInDB(client);
+            connection = new JDBCConnection();
             PreparedStatement ps = connection.getConnection().prepareStatement(VISITED_COUNTRIES);
             ps.setInt(1, id_client);
             ResultSet set = ps.executeQuery();
@@ -168,5 +179,18 @@ public class ClientDaoImpl implements ClientDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean checkClientVisas(Client client, Country country) {
+        try {
+            connection = new JDBCConnection();
+            int id_client = findIdClientInDB(client);
+            int idDestinationCountry = new CountryDaoImpl().findIdCountryByName(country.getCountry_name());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

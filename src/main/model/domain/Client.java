@@ -5,20 +5,17 @@ package main.model.domain;
  */
 public class Client {
     private int id_client;
-    private int id_country;
+    private String countryName;
     private String first_name;
     private String last_name;
     private String email;
-
-    public Client() {
-    }
 
     public void setId_client(int id_client) {
         this.id_client = id_client;
     }
 
-    public void setId_country(int id_country) {
-        this.id_country = id_country;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public void setFirst_name(String first_name) {
@@ -37,8 +34,8 @@ public class Client {
         return id_client;
     }
 
-    public int getId_country() {
-        return id_country;
+    public String getCountryName() {
+        return countryName;
     }
 
     public String getFirst_name() {
@@ -53,8 +50,8 @@ public class Client {
         return email;
     }
 
-    public Client(int id_country, String first_name, String last_name, String email) {
-        this.id_country = id_country;
+    public Client(String countryName, String first_name, String last_name, String email) {
+        this.countryName = countryName;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -64,5 +61,8 @@ public class Client {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
+    }
+
+    public Client() {
     }
 }

@@ -22,18 +22,18 @@ import java.util.List;
 public class MainControl {
 
     //1.1.
-    public List<Country> getAllCountries() {
+    public List<Country> findAllCountries() {
         return new CountryDaoImpl().getAll();
     }
 
     //1.2.
-    public List<City> getAllCities() {
+    public List<City> findAllCities() {
         return new CityDaoImpl().getAll();
     }
 
     //2.
     public List<Hotel> checkForHotelInCity(String cityName) {
-        List<City> listAllCities = getAllCities();
+        List<City> listAllCities = findAllCities();
         int id_city = 0;
         for (City city : listAllCities) {
             if (city.getCity_name().equals(cityName)) {
@@ -70,6 +70,12 @@ public class MainControl {
         return new OpenedVisasDaoImpl().howManyVisas(country);
     }
 
+    //7. Чи можна забронювати для конкретного клієнта
+    public boolean checkClientValidation(Client client) {
+
+        return false;
+    }
+
     //8.
     public String clientStatistics(String firstName, String lastName, String email) {
         List<String> listOfCurrentVisas;
@@ -77,7 +83,6 @@ public class MainControl {
         ClientDaoImpl cd = new ClientDaoImpl();
         listOfCurrentVisas = cd.currentVisas(new Client(firstName, lastName, email));
         listOfVisitedCountries = cd.visitedCountries(new Client(firstName, lastName, email));
-        StringBuilder sb = new StringBuilder();
         System.out.println("Current");
         for (String s : listOfCurrentVisas) {
             System.out.println(s + " ");

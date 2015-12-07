@@ -1,6 +1,7 @@
 package main.model.dao;
 
 import main.model.domain.Client;
+import main.model.domain.Country;
 
 import java.util.List;
 
@@ -12,5 +13,15 @@ public interface ClientDao {
 
     int deleteClient(Client client);
 
-    List<Client> getAll();
+    List<Client> findAll();
+
+    int clientVisasAmount(Client client);
+
+    int findIdClientInDB(Client client);
+
+    List<String> currentVisas(Client client);
+
+    List<String> visitedCountries(Client client);
+
+    boolean checkClientVisas(Client client, Country country);
 }
