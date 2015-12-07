@@ -96,9 +96,7 @@ public class OrdersDaoImpl implements OrdersDao {
         try {
             List<Room> list = new ArrayList<>();
             JDBCConnection connection = new JDBCConnection();
-            System.out.println("Checking for available rooms before Prepared");
             PreparedStatement ps = connection.getConnection().prepareStatement(AVAILABLE_ROOMS);
-            System.out.println("Checking for available rooms after Prepared");
             ps.setInt(1, hotel_id);
             ps.setDate(2, check_in);
             ps.setDate(3, check_out);

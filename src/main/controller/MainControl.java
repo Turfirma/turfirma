@@ -152,24 +152,6 @@ public class MainControl {
         return resultList;
     }
 
-    private class RoomIdAndDays extends Room {
-
-        private int loadingDays;
-
-        public void setLoadingDays(int loadingDays) {
-            this.loadingDays = loadingDays;
-        }
-
-        public int getLoadingDays() {
-            return loadingDays;
-        }
-
-        @Override
-        public int hashCode() {
-            return RoomIdAndDays.this.getId_room();
-        }
-    }
-
     //10.
     public ArrayList<String> hotelStatistic() {
 
@@ -254,6 +236,24 @@ public class MainControl {
 
         public void setAvarageOrder(float avarageOrder) {
             this.avarageOrder = avarageOrder;
+        }
+    }
+
+    private class RoomIdAndDays extends Room {
+
+        private int loadingDays;
+
+        public void setLoadingDays(int loadingDays) {
+            this.loadingDays = loadingDays;
+        }
+
+        public int getLoadingDays() {
+            return loadingDays;
+        }
+
+        @Override
+        public int hashCode() {
+            return RoomIdAndDays.this.getId_room();
         }
     }
 }
