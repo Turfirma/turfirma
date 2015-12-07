@@ -3,6 +3,7 @@ package main.model.dao;
 import main.model.domain.Client;
 import main.model.domain.Country;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -23,5 +24,5 @@ public interface ClientDao {
 
     List<String> visitedCountries(Client client);
 
-    boolean checkClientVisas(Client client, Country country);
+    int checkClientVisas(int clientId, int countryId, Date check_in, Date check_out);
 }

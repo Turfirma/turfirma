@@ -5,6 +5,7 @@ import main.model.domain.Client;
 import main.model.domain.Country;
 import main.model.resources.JDBCConnection;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -35,6 +36,9 @@ public class ClientDaoImpl implements ClientDao {
             "JOIN orders ON hotels.id_hotel = orders.id_hotel " +
             "WHERE orders.id_client = ? " +
             "AND CURDATE() >= orders.check_in;";
+
+    private static final String CHECK_CLIENT_VISA = "SELECT COUNT(opened_visas.id_country) > 0 FROM " +
+            "opened_visas WHERE (start_date <= ? AND end_date >= ? AND id_country = ? AND id_client = ?);";
 
     private static final String INSERT_CLIENT = "INSERT INTO client (first_name, last_name, email, id_country) " +
             "VALUES (?,?,?,(SELECT id_country FROM country WHERE country_name LIKE ?));";
@@ -182,15 +186,22 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public boolean checkClientVisas(Client client, Country country) {
+    public int checkClientVisas(int clientId, int idDestinationCountry, Date check_in, Date check_out) {
         try {
             connection = new JDBCConnection();
-            int id_client = findIdClientInDB(client);
-            int idDestinationCountry = new CountryDaoImpl().findIdCountryByName(country.getCountry_name());
-
+            PreparedStatement ps = connection.getConnection().prepareStatement(CHECK_CLIENT_VISA);
+            ps.setDate(1, check_in);
+            ps.setDate(2, check_out);
+            ps.setInt(3, idDestinationCountry);
+            ps.setInt(4, clientId);
+            ResultSet set = ps.executeQuery();
+            set.next();
+            int i = set.getInt(1);
+            connection.getConnection().close();
+            return i;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 }

@@ -71,9 +71,8 @@ public class MainControl {
     }
 
     //7. Чи можна забронювати для конкретного клієнта
-    public boolean checkClientValidation(Client client) {
-
-        return false;
+    public boolean checkClientValidation(int clientId, int countryId, Date check_in, Date check_out) {
+        return new ClientDaoImpl().checkClientVisas(clientId, countryId, check_in, check_out) > 0;
     }
 
     //8.
